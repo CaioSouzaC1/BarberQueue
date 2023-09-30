@@ -41,10 +41,5 @@ class AuthController extends Controller
         );
     }
 
-    public function test()
-    {
-        return response()->json([
-            'message' => 'success controller',
-        ]);
-    }
+
 }

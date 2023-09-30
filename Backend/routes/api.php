@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SectionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,5 +20,9 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::get('/test', [AuthController::class, 'test']);
+
+//User
+Route::post('/user/register', [AuthController::class, 'register']);
+
+//Section
+Route::post('/section/register', [SectionController::class, 'register']);
