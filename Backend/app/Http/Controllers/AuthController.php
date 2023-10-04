@@ -33,12 +33,14 @@ class AuthController extends Controller
 
         $user->save();
 
-        return response()->json(
-            [
-                'message' => 'User created successfully',
-            ],
-            201
-        );
+        // return response()->json(
+        //     [
+        //         'message' => 'User created successfully',
+        //     ],
+        //     201
+        // );
+
+        return $this->login($request);
     }
 
     public function login(Request $request)
@@ -59,7 +61,9 @@ class AuthController extends Controller
         if (!auth()->attempt($credentials)) {
             return response()->json([
                 'message' => 'Unauthorized',
-            ], 401);
+            ], 401, [
+                'X-Error-Message' => 'Credenciais inválidas',
+            ]);
         }
 
         $user = $request->user();
@@ -68,12 +72,15 @@ class AuthController extends Controller
 
         $token->token = $token->accessToken->token;
 
+        //Slep to show react toast
+        sleep(2);
+
         return response()->json(['user' => $token], 200);
     }
 
     public function validate_token(Request $request)
     {
-        $token = $request->input('user.token');
+        $token = $request->input('token');
 
         $accessToken = PersonalAccessToken::where('token', $token)->first();
 

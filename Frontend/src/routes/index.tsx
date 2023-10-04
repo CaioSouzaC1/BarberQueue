@@ -1,21 +1,20 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "../pages/home";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { AuthContext } from "../context/AuthContext";
+import LoginPage from "../pages/login";
+import CreateAccountPage from "../pages/createAccount";
 
 const MainRoutes = () => {
   return (
     <>
-      <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
-        <Header />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Home />} />
-          </Routes>
-        </BrowserRouter>
-        <Footer />
-      </AuthContext.Provider>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/criar-conta" element={<CreateAccountPage />} />
+      </Routes>
+      <Footer />
     </>
   );
 };

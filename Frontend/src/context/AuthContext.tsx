@@ -1,10 +1,12 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { API_URL } from "../../env";
+import { ToastContainer, toast } from "react-toastify";
 
 interface AuthContextType {
   isAuthenticated: boolean;
   login: (whatsapp: string, password: string) => Promise<void>;
   logout: () => void;
+  create: (whatsapp: string, password: string, name: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -12,33 +14,63 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // useEffect(() => {
-  //   const checkAuthentication = async () => {
-  //     try {
-  //       const response = await fetch(`${API_URL}/user/login`);
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      try {
+        if (!localStorage.getItem("token")) {
+          setIsAuthenticated(false);
+          return;
+        }
+        const response = await fetch(`${API_URL}/user/validate-token`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token: localStorage.getItem("token") }),
+        });
+        if (response.ok) {
+          setIsAuthenticated(true);
+        } else {
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        setIsAuthenticated(false);
+      }
+    };
 
-  //       console.log(response);
-  //       if (response.ok) {
-  //         const data = await response.json();
+    checkAuthentication();
+  }, []);
 
-  //         console.log(data);
+  const create = async (whatsapp: string, password: string, name: string) => {
+    try {
+      const response = await fetch(`${API_URL}/user/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ whatsapp, password, name }),
+      });
 
-  //         // if (data.isAuthenticated) {
-  //         //   setIsAuthenticated(true);
-  //         // } else {
-  //         //   setIsAuthenticated(false);
-  //         // }
-  //       } else {
-  //         setIsAuthenticated(false);
-  //       }
-  //     } catch (error) {
-  //       console.error("Erro ao verificar autenticação:", error);
-  //       setIsAuthenticated(false);
-  //     }
-  //   };
-
-  //   checkAuthentication();
-  // }, []);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.user.token) {
+          toast.success("Usuário criado com sucesso!");
+          setIsAuthenticated(true);
+          localStorage.setItem("token", data.user.token);
+        } else {
+          toast.error("Falha na requisição.");
+          setIsAuthenticated(false);
+        }
+      } else {
+        toast.error("Credenciais inválidas. Tente novamente.");
+        setIsAuthenticated(false);
+      }
+    } catch (error) {
+      toast.error("Erro interno do sistema.");
+      console.log(error);
+      setIsAuthenticated(false);
+    }
+  };
 
   const login = async (whatsapp: string, password: string) => {
     try {
@@ -50,38 +82,36 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         body: JSON.stringify({ whatsapp, password }),
       });
 
-      console.log(response);
-
       if (response.ok) {
         const data = await response.json();
-
-        console.log(data);
-        // if (data.isAuthenticated) {
-        //   setIsAuthenticated(true);
-        //   // Armazene o token no local storage ou cookies
-        //   localStorage.setItem("token", data.token);
-        // } else {
-        //   setIsAuthenticated(false);
-        // }
+        if (data.user.token) {
+          toast.success("Login bem-sucedido!");
+          setIsAuthenticated(true);
+          localStorage.setItem("token", data.user.token);
+        } else {
+          toast.error("Falha na requisição.");
+          setIsAuthenticated(false);
+        }
       } else {
+        toast.error("Credenciais inválidas. Tente novamente.");
         setIsAuthenticated(false);
       }
     } catch (error) {
-      console.error("Erro ao fazer login:", error);
+      toast.error("Erro interno do sistema.");
+      console.log(error);
       setIsAuthenticated(false);
     }
   };
 
   const logout = () => {
-    // Implemente a lógica de logout, que pode incluir uma chamada ao backend
     setIsAuthenticated(false);
-    // Remova o token do local storage ou cookies
     localStorage.removeItem("token");
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, create }}>
       {children}
+      <ToastContainer />
     </AuthContext.Provider>
   );
 };

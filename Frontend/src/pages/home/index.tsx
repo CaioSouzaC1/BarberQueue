@@ -1,5 +1,5 @@
+import { Link } from "react-router-dom";
 import Container from "../../components/Container";
-import LoginForm from "../../components/Forms/Login";
 import Grower from "../../components/Grower";
 
 const Home = () => {
@@ -7,7 +7,9 @@ const Home = () => {
     <Grower>
       <Container>
         <h1>HOME</h1>
-        <LoginForm />
+        <Link to="/login">Login</Link>
+        <br />
+        <Link to="/criar-conta">Criar conta</Link>
       </Container>
     </Grower>
   );

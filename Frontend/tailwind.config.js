@@ -8,6 +8,7 @@ export default {
       brownBarber: "#4c2d12",
       blackBarber: "#271709",
       creamBarber: "#ffead5",
+      whiteBarber: "#fff5eb",
     },
   },
   plugins: [],

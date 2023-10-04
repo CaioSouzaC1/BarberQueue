@@ -6,3 +6,32 @@ body {
   font-family: 'Rubik', sans-serif;
   @apply bg-creamBarber;
 }
+
+form {
+  @apply border-b-[1px] border-brownBarber pb-4 mb-4;
+}
+
+legend {
+  @apply text-brownBarber font-semibold text-lg mb-2;
+}
+
+label {
+  @apply block text-sm font-medium leading-6 text-brownBarber mb-1;
+}
+
+input[type="text"],input[type="number"] {
+  @apply block w-full bg-creamBarber rounded-md border-0 py-2 pl-2 text-brownBarber shadow-md ring-1 ring-inset ring-brownBarber placeholder:text-brownBarber focus:ring-inset focus:ring-blackBarber sm:text-sm sm:leading-6;
+}
+
+button[type="submit"]{
+  @apply bg-brownBarber px-4 py-2 rounded-md text-creamBarber font-semibold shadow-md hover:bg-blackBarber focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blackBarber;
+}
+
+a {
+  @apply text-brownBarber font-semibold border-b-2 border-blackBarber mb-4 hover:border-b-orangeBarber hover:text-orangeBarber inline-block w-auto transition-all;
+}
+
+/*Toastify*/
+.Toastify__toast-theme--light {
+  @apply bg-whiteBarber text-blackBarber;
+}
