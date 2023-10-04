@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use Laravel\Sanctum\PersonalAccessToken;
 
 class AuthController extends Controller
 {
@@ -66,11 +66,36 @@ class AuthController extends Controller
 
         $token = $user->createToken('Access Token');
 
-        $user->access_token = $token->accessToken;
+        $token->token = $token->accessToken->token;
 
-        return response()->json([
-            'user' => $user,
-        ], 200);
+        return response()->json(['user' => $token], 200);
     }
 
+    public function validate_token(Request $request)
+    {
+        $token = $request->input('user.token');
+
+        $accessToken = PersonalAccessToken::where('token', $token)->first();
+
+        if (!$accessToken) {
+            return response()->json(['message' => 'Token inválido'], 401);
+        }
+
+        if ($accessToken->expires_at && now()->gte($accessToken->expires_at)) {
+            return response()->json(['message' => 'Token expirado'], 401);
+        }
+
+        return response()->json(['message' => 'Token válido'], 200);
+    }
+
+    public function logout(Request $request)
+    {
+        $token = $request->input('user.token');
+
+        $accessToken = PersonalAccessToken::where('token', $token)->first();
+
+        $accessToken->delete();
+
+        return response()->json(['message' => 'Logged out'], 200);
+    }
 }

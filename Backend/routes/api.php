@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 
 //User
 Route::post('/user/register', [AuthController::class, 'register']);
-
+Route::post('/user/login', [AuthController::class, 'login']);
+Route::post('/user/validate-token', [AuthController::class, 'validate_token']);
+Route::post('/user/logout', [AuthController::class, 'logout']);
 //Section
 Route::post('/section/register', [SectionController::class, 'register']);

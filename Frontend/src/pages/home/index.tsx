@@ -1,16 +1,14 @@
+import Container from "../../components/Container";
+import LoginForm from "../../components/Forms/Login";
 import Grower from "../../components/Grower";
 
 const Home = () => {
   return (
     <Grower>
-      <p>
-        orem ipsum dolor sit amet, consectetur adipiscing elit. Cras at luctus
-        sem, ut interdum erat. Ut massa leo, imperdiet a metus vel, vehicula
-        aliquam velit. Quisque blandit metus nulla, at sollicitudin nunc rhoncus
-        et. Duis lectus augue, faucibus nec semper vitae, convallis vel ipsum.
-        Vivamus lacinia a magna ac sollicitudin. Integer tempor ultricies
-        volutpat. Proin pla
-      </p>
+      <Container>
+        <h1>HOME</h1>
+        <LoginForm />
+      </Container>
     </Grower>
   );
 };
