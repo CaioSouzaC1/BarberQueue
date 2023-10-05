@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const LoginForm = () => {
   const { login } = useAuth();
@@ -42,7 +43,16 @@ const LoginForm = () => {
         />
       </div>
 
-      <button type="submit">Entrar</button>
+      <div className="flex justify-between w-full items-center">
+        <button type="submit">Entrar</button>
+
+        <p className="mt-1">
+          Não tem uma conta?{" "}
+          <Link className="mb-0" to={"/criar-conta"}>
+            Crie uma
+          </Link>
+        </p>
+      </div>
     </form>
   );
 };

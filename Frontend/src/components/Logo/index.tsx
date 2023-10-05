@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Logo = () => {
   return (
-    <Link to={"/"} className="border-b-0">
+    <Link to={"/"} className="border-b-0 mb-0">
       <p className="inline-flex font-bold text-2xl lg:text-4xl text-brownBarber py-2">
         <span className="font-black">Barber</span>Q{" "}
         <img

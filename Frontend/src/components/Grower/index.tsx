@@ -3,6 +3,6 @@ interface IGrowerProps {
 }
 
 const Grower = ({ children }: IGrowerProps) => {
-  return <div className="min-h-[calc(100vh-224px)]">{children}</div>;
+  return <div className="min-h-[calc(100vh-294px)]">{children}</div>;
 };
 export default Grower;

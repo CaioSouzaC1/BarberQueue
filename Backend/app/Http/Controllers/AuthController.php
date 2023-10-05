@@ -72,9 +72,6 @@ class AuthController extends Controller
 
         $token->token = $token->accessToken->token;
 
-        //Slep to show react toast
-        sleep(2);
-
         return response()->json(['user' => $token], 200);
     }
 

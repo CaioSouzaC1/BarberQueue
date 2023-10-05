@@ -1,19 +1,26 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "../pages/home";
+import Home from "../pages/Home";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import LoginPage from "../pages/login";
-import CreateAccountPage from "../pages/createAccount";
+import LoginPage from "../pages/Login";
+import CreateAccountPage from "../pages/CreateAccount";
+import NotFoundPage from "../pages/NotFound";
+import MyProfilePage from "../pages/MyProfile";
+import Grower from "../components/Grower";
 
 const MainRoutes = () => {
   return (
     <>
       <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/criar-conta" element={<CreateAccountPage />} />
-      </Routes>
+      <Grower>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/entrar" element={<LoginPage />} />
+          <Route path="/criar-conta" element={<CreateAccountPage />} />
+          <Route path="/meu-perfil" element={<MyProfilePage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </Grower>
       <Footer />
     </>
   );

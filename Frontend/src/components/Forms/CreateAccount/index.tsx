@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const CreateAccountForm = () => {
   const [whatsapp, setWhatsapp] = useState("");
@@ -59,7 +60,16 @@ const CreateAccountForm = () => {
         />
       </div>
 
-      <button type="submit">Cadastrar</button>
+      <div className="flex justify-between w-full items-center">
+        <button type="submit">Cadastrar</button>
+
+        <p className="mt-1">
+          Já tem uma conta?{" "}
+          <Link className="mb-0" to={"/entrar"}>
+            Entrar
+          </Link>
+        </p>
+      </div>
     </form>
   );
 };
