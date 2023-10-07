@@ -89,7 +89,9 @@ class AuthController extends Controller
             return response()->json(['message' => 'Token expirado'], 401);
         }
 
-        return response()->json(['message' => 'Token válido'], 200);
+        $user = User::where('id', $accessToken->tokenable_id)->first();
+
+        return response()->json(["user" => $user], 200);
     }
 
     public function logout(Request $request)

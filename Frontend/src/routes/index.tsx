@@ -7,6 +7,7 @@ import CreateAccountPage from "../pages/CreateAccount";
 import NotFoundPage from "../pages/NotFound";
 import MyProfilePage from "../pages/MyProfile";
 import Grower from "../components/Grower";
+import CreateSectionPage from "../pages/CreateSection";
 
 const MainRoutes = () => {
   return (
@@ -18,6 +19,7 @@ const MainRoutes = () => {
           <Route path="/entrar" element={<LoginPage />} />
           <Route path="/criar-conta" element={<CreateAccountPage />} />
           <Route path="/meu-perfil" element={<MyProfilePage />} />
+          <Route path="/agendar-secao" element={<CreateSectionPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Grower>

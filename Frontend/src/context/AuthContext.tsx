@@ -7,12 +7,20 @@ interface AuthContextType {
   login: (whatsapp: string, password: string) => Promise<void>;
   logout: () => void;
   create: (whatsapp: string, password: string, name: string) => Promise<void>;
+  user: {
+    id?: number;
+    whatsapp?: string;
+    name?: string;
+    created_at?: string;
+    updated_at?: string;
+  };
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -30,6 +38,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         });
         if (response.ok) {
           setIsAuthenticated(true);
+          const res = await response.json();
+          setUser(res.user);
         } else {
           setIsAuthenticated(false);
         }
@@ -109,7 +119,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, create }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, login, logout, create, user }}>
       {children}
       <ToastContainer />
     </AuthContext.Provider>

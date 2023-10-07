@@ -19,7 +19,7 @@ label {
   @apply block text-sm font-medium leading-6 text-brownBarber mb-1;
 }
 
-input[type="text"],input[type="number"] {
+input[type="text"],input[type="number"],input[type="date"],textarea,select {
   @apply block w-full bg-creamBarber rounded-md border-0 py-2 pl-2 text-brownBarber shadow-md ring-1 ring-inset ring-brownBarber placeholder:text-brownBarber focus:ring-inset focus:ring-blackBarber sm:text-sm sm:leading-6;
 }
 
@@ -43,3 +43,11 @@ h3 {
 .Toastify__toast-theme--light {
   @apply bg-whiteBarber text-blackBarber;
 }
+
+@media screen and (max-width: 480px) {
+  .Toastify__toast {
+    max-width: 80%;
+    margin: 1rem auto;
+  }
+}
+
