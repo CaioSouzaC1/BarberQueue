@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MetaOptionController;
 use App\Http\Controllers\SectionController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,10 +22,20 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
+//Admin
+Route::post('/admin/register', [AdminController::class, 'register']);
+Route::post('/admin/login', [AdminController::class, 'login']);
+Route::post('/admin/validate-token', [AdminController::class, 'validate_token']);
+
+
 //User
 Route::post('/user/register', [AuthController::class, 'register']);
 Route::post('/user/login', [AuthController::class, 'login']);
 Route::post('/user/validate-token', [AuthController::class, 'validate_token']);
 Route::post('/user/logout', [AuthController::class, 'logout']);
+
 //Section
 Route::post('/section/register', [SectionController::class, 'register']);
+
+//MetaOption
+Route::post('/meta/create', [MetaOptionController::class, 'create_meta']);
