@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { API_URL } from "../../env";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -21,6 +22,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -108,6 +110,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           });
           setIsAuthenticated(true);
           localStorage.setItem("tokenAdmin", data.user.token);
+          navigate("/");
         } else {
           toast.error("Falha na requisição.", {
             theme: "dark",

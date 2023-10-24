@@ -39,5 +39,7 @@ class MetaOptionController extends Controller
         ]);
 
         $meta->save();
+
+        return response()->json(['message' => 'Meta created successfully',], 200);
     }
 }

@@ -13,7 +13,7 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full">
+    <form onSubmit={handleSubmit} className="w-full max-w-4xl">
       <PersonCircle className="mx-auto mb-4" size={64} color="#dbeafe" />
       <legend>Entrar na dashboard</legend>
       <div className="mb-4">

@@ -4,6 +4,8 @@ import Footer from "../components/Footer";
 import Grower from "../components/Grower";
 
 import LoginPage from "../pages/Login";
+import DashboardPage from "../pages/Dashboard";
+import OptionsPage from "../pages/OptionsPage";
 
 const MainRoutes = () => {
   return (
@@ -11,8 +13,9 @@ const MainRoutes = () => {
       <Header />
       <Grower>
         <Routes>
-          {/* <Route path="/" element={<Home />} /> */}
+          <Route path="/" element={<DashboardPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/editar-opcoes" element={<OptionsPage />} />
         </Routes>
       </Grower>
       <Footer />
