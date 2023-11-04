@@ -1,8 +1,14 @@
+import { GROWER_MIN } from "../../../env";
+
 interface IGrowerProps {
   children: React.ReactNode;
 }
 
 const Grower = ({ children }: IGrowerProps) => {
-  return <div className="min-h-[calc(100vh-112px)]">{children}</div>;
+  return (
+    <div style={{ minHeight: window.innerHeight - GROWER_MIN + "px" }}>
+      {children}
+    </div>
+  );
 };
 export default Grower;

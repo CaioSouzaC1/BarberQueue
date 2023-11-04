@@ -2,31 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
+
 body {
   font-family: 'Rubik', sans-serif;
-  @apply bg-gray-900;
+  @apply bg-zinc-200;
 }
 
 form {
-  @apply bg-blue-950 py-8 px-4 rounded-lg shadow-lg;
+  @apply bg-neutral-400 py-8 px-4 rounded-lg shadow-2xl;
 }
 
 legend {
-  @apply text-blue-200 text-2xl mb-4 block font-bold;
+  @apply text-neutral-100 text-2xl mb-4 block font-bold;
 }
 
 label {
-  @apply text-blue-200 text-lg mb-2 block;
+  @apply text-neutral-100 text-lg mb-2 block font-bold;
 }
 
 input {
-  @apply bg-blue-950 text-blue-200 border-blue-200 border-2 rounded-lg px-2 py-1 w-full placeholder:text-blue-200;
+  @apply bg-neutral-400 text-neutral-50 border-neutral-50 border-2 rounded px-2 py-1 w-full placeholder:text-neutral-50 mb-4;
 }
 button[type="submit"] {
-  @apply bg-blue-400 text-blue-900 border-blue-400 hover:bg-blue-500 hover:border-blue-500 border-2 rounded-lg px-2 py-1 w-full mt-4;
+  @apply bg-zinc-200 text-zinc-500 border-neutral-400 hover:bg-neutral-500 hover:border-neutral-500 hover:text-zinc-200 border-2 rounded-lg px-2 py-4 w-full mt-4 animation;
+}
+
+select {
+  @apply cursor-pointer border-2 text-zinc-200 text-sm rounded-lg block w-full p-2.5 bg-neutral-400 border-neutral-200 placeholder-gray-400 dark:text-white focus:ring-neutral-500 focus:border-neutral-500 px-1;
+}
+
+option {
+  @apply py-4;
+}
+
+.animation {
+  @apply transition-all duration-500 ease-in-out;
+}
+
+input[type="checkbox"] {
+  @apply cursor-pointer;
 }
 
 
+
+/*ScrollBar*/
+::-webkit-scrollbar {
+  @apply w-1;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-zinc-200;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-600 hover:bg-gray-500; 
+}
 /*Toastify*/
 @media screen and (max-width: 480px) {
   .Toastify__toast {

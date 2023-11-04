@@ -39,3 +39,4 @@ Route::post('/section/register', [SectionController::class, 'register']);
 
 //MetaOption
 Route::post('/meta/create', [MetaOptionController::class, 'create_meta']);
+Route::get('/meta', [MetaOptionController::class, 'get_meta']);

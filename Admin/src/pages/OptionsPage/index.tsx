@@ -1,10 +1,16 @@
+import Container from "../../components/Container";
 import AdminOptions from "../../components/Forms/AdminOptions";
+import Preparer from "../../components/Preparer";
 
 const OptionsPage = () => {
   return (
-    <div className="mx-4 py-4">
-      <AdminOptions />
-    </div>
+    <>
+      <Preparer>
+        <Container>
+          <AdminOptions />
+        </Container>
+      </Preparer>
+    </>
   );
 };
 
