@@ -12,20 +12,20 @@ export const formatWorkingDates = (data: Idates) => {
   if (
     workingDays.length !== startTimes.length ||
     workingDays.length !== endTimes.length ||
-    workingDays.length == 0
+    workingDays.length === 0
   ) {
-    return "undefined";
+    return [];
   }
 
-  const formattedWorkingDays = workingDays.map((day, index) => {
-    const startTime = startTimes[index];
-    const endTime = endTimes[index];
+  const formattedWorkingDays = workingDays.map((day, index) => ({
+    day,
+    startTime: startTimes[index],
+    endTime: endTimes[index],
+  }));
 
-    return `{day: ${day}, startTime: ${startTime}, endTime: ${endTime}}`;
-  });
-
-  return formattedWorkingDays.join(", ");
+  return formattedWorkingDays;
 };
+
 
 export const get_meta = async () => {
   const response = await fetch(`${API_URL}/meta/`);

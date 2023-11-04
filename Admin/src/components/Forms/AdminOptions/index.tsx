@@ -4,6 +4,12 @@ import { useEffect, useState } from "react";
 import { weekDays, schedules } from "../../../services/variables";
 import { formatWorkingDates, get_meta } from "../../../services/utils";
 
+interface WorkingDay {
+  day: string;
+  startTime: string;
+  endTime: string;
+}
+
 const AdminOptions = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -25,9 +31,39 @@ const AdminOptions = () => {
       const initialMeta = await get_meta();
       setInitialMeta(initialMeta.meta);
     }
-
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (initialMeta._est_working_days !== "") {
+      const parsedWorkingDays: WorkingDay[] = JSON.parse(
+        initialMeta._est_working_days
+      );
+      parsedWorkingDays.forEach((day) => {
+        setWorkingDays((prev) => ({
+          ...prev,
+          [day.day]: true,
+        }));
+        setStartTimes((prev) => ({
+          ...prev,
+          [day.day]: day.startTime,
+        }));
+        setEndTimes((prev) => ({
+          ...prev,
+          [day.day]: day.endTime,
+        }));
+      });
+    }
+  }, [initialMeta]);
+
+  useEffect(() => {
+    if (name == "") {
+      setName(initialMeta._est_name);
+    }
+    if (description == "") {
+      setDescription(initialMeta._est_desc);
+    }
+  }, [description, initialMeta._est_desc, initialMeta._est_name, name]);
 
   const handleWorkingDayChange = (day: string) => {
     setWorkingDays((prev) => ({
@@ -58,7 +94,6 @@ const AdminOptions = () => {
       startTimes: Object.values(startTimes),
       endTimes: Object.values(endTimes),
     });
-
     try {
       const response = await fetch(`${API_URL}/meta/create`, {
         method: "POST",
@@ -76,29 +111,28 @@ const AdminOptions = () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        toast.success("Configurações atualizadas!", {
-          theme: "dark",
+        toast.success("Opções atualizadas!", {
+          theme: "light",
         });
-      } else {
-        const data = await response.json();
-        console.error(data);
-
-        toast.error("Erro ao atualizar credenciais.", {
-          theme: "dark",
-        });
+        return;
       }
+      const data = await response.json();
+      console.error(data);
+      toast.error("Erro ao atualizar opções.", {
+        theme: "light",
+      });
     } catch (error) {
       console.log(error);
       toast.error("Erro interno do sistema.", {
-        theme: "dark",
+        theme: "light",
       });
     }
   };
 
   return (
-    <form className="py-2 my-4 w-[60%] rounded-none" onSubmit={handleSubmit}>
+    <form
+      className="py-2 my-4 w-full lg:w-[calc(60%-.5rem)] rounded-none"
+      onSubmit={handleSubmit}>
       <label htmlFor="_est_name">Nome do estabelecimento</label>
       <input
         type="text"
@@ -115,63 +149,65 @@ const AdminOptions = () => {
         onChange={(e) => setDescription(e.target.value)}
         defaultValue={initialMeta._est_desc}
       />
-      {weekDays.map((day, i) => (
-        <div
-          className={`flex flex-wrap py-[10px] pl-4 rounded mb-4 ${
-            i % 2 == 1 ? "bg-neutral-500" : "bg-neutral-600"
-          }`}
-          key={day.value}>
-          <label className="flex flex-wrap w-full sm:w-[20%] items-center justify-start flex-row gap-4 mb-0 py-3 cursor-pointer">
-            <input
-              className="w-5 h-5 mb-0"
-              type="checkbox"
-              checked={workingDays[day.value] || false}
-              onChange={() => handleWorkingDayChange(day.value)}
-            />
-            <p className="font-bold"> {day.name}</p>
-          </label>
-          {workingDays[day.value] && (
-            <div className="flex flex-wrap w-full sm:w-[80%] gap-8">
-              <div className="min-w-full sm:min-w-[12rem] flex items-center gap-4">
-                <label
-                  className="mb-0 min-w-[4.5rem]"
-                  title="Horário de Inicio">
-                  Inicio ☀️
-                </label>
-                <select
-                  className="w-[50%] sm:w-[35%]"
-                  value={startTimes[day.value] || ""}
-                  onChange={(e) =>
-                    handleStartTimeChange(day.value, e.target.value)
-                  }>
-                  {schedules.map((time) => (
-                    <option key={time} value={time}>
-                      {time}
-                    </option>
-                  ))}
-                </select>
+      {weekDays.map((day, i) => {
+        return (
+          <div
+            className={`flex flex-wrap py-[10px] pl-4 rounded mb-4 ${
+              i % 2 == 1 ? "bg-neutral-500" : "bg-neutral-600"
+            }`}
+            key={day.value}>
+            <label className="flex flex-wrap w-full sm:w-[20%] items-center justify-start flex-row gap-4 mb-0 py-3 cursor-pointer">
+              <input
+                className="w-5 h-5 mb-0"
+                type="checkbox"
+                checked={workingDays[day.value] || false}
+                onChange={() => handleWorkingDayChange(day.value)}
+              />
+              <p className="font-bold"> {day.name}</p>
+            </label>
+            {workingDays[day.value] && (
+              <div className="flex flex-wrap w-full sm:w-[80%] gap-8">
+                <div className="min-w-full sm:min-w-[12rem] flex items-center gap-4">
+                  <label
+                    className="mb-0 min-w-[4.5rem]"
+                    title="Horário de Inicio">
+                    Inicio ☀️
+                  </label>
+                  <select
+                    className="w-[50%] sm:w-[35%]"
+                    value={startTimes[day.value] || ""}
+                    onChange={(e) =>
+                      handleStartTimeChange(day.value, e.target.value)
+                    }>
+                    {schedules.map((time) => (
+                      <option key={time} value={time}>
+                        {time}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="min-w-full sm:min-w-[12rem] flex items-center gap-4">
+                  <label className="mb-0 min-w-[4.5rem]" title="Horário de Fim">
+                    Fim 🌙
+                  </label>
+                  <select
+                    className="w-[50%] sm:w-[35%]"
+                    value={endTimes[day.value] || ""}
+                    onChange={(e) =>
+                      handleEndTimeChange(day.value, e.target.value)
+                    }>
+                    {schedules.map((time) => (
+                      <option key={time} value={time}>
+                        {time}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
-              <div className="min-w-full sm:min-w-[12rem] flex items-center gap-4">
-                <label className="mb-0 min-w-[4.5rem]" title="Horário de Fim">
-                  Fim 🌙
-                </label>
-                <select
-                  className="w-[50%] sm:w-[35%]"
-                  value={endTimes[day.value] || ""}
-                  onChange={(e) =>
-                    handleEndTimeChange(day.value, e.target.value)
-                  }>
-                  {schedules.map((time) => (
-                    <option key={time} value={time}>
-                      {time}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          )}
-        </div>
-      ))}
+            )}
+          </div>
+        );
+      })}
       <button type="submit">Enviar</button>
     </form>
   );

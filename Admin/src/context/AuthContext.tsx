@@ -67,25 +67,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const data = await response.json();
         if (data.user.token) {
           toast.success("Usuário criado com sucesso!", {
-            theme: "dark",
+            theme: "light",
           });
           setIsAuthenticated(true);
           localStorage.setItem("tokenAdmin", data.user.token);
         } else {
           toast.error("Falha na requisição.", {
-            theme: "dark",
+            theme: "light",
           });
           setIsAuthenticated(false);
         }
       } else {
         toast.error("Credenciais inválidas. Tente novamente.", {
-          theme: "dark",
+          theme: "light",
         });
         setIsAuthenticated(false);
       }
     } catch (error) {
       toast.error("Erro interno do sistema.", {
-        theme: "dark",
+        theme: "light",
       });
       console.log(error);
       setIsAuthenticated(false);
@@ -106,26 +106,26 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         const data = await response.json();
         if (data.user.token) {
           toast.success("Login bem-sucedido!", {
-            theme: "dark",
+            theme: "light",
           });
           setIsAuthenticated(true);
           localStorage.setItem("tokenAdmin", data.user.token);
           navigate("/");
         } else {
           toast.error("Falha na requisição.", {
-            theme: "dark",
+            theme: "light",
           });
           setIsAuthenticated(false);
         }
       } else {
         toast.error("Credenciais inválidas. Tente novamente.", {
-          theme: "dark",
+          theme: "light",
         });
         setIsAuthenticated(false);
       }
     } catch (error) {
       toast.error("Erro interno do sistema.", {
-        theme: "dark",
+        theme: "light",
       });
       console.log(error);
       setIsAuthenticated(false);
